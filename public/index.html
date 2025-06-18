@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GenAI Prompt</title>
+</head>
+<body>
+  <h1>Ask Something</h1>
+  <form id="prompt-form">
+    <textarea name="prompt" rows="5" cols="40" placeholder="Enter your prompt..."></textarea><br>
+    <button type="submit">Submit</button>
+  </form>
+  <div id="response"></div>
+
+  <script>
+    document.getElementById('prompt-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const prompt = e.target.prompt.value;
+
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+
+      const data = await res.json();
+      document.getElementById('response').innerText = data.response || 'Error';
+    });
+  </script>
+</body>
+</html>
